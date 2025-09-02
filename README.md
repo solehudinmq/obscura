@@ -1,8 +1,13 @@
 # Obscura
 
-TODO: Delete this and the text below, and describe your gem
+Obscura is a Ruby library for masking column values ​​in tables, which can be set via a model, and is temporary. Therefore, when you need to mask sensitive data, this library is ideal.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/obscura`. To experiment with that code, run `bin/console` for an interactive prompt.
+With the Obscura library, your Ruby application can temporarily manipulate the values ​​of columns in the model. This allows us to mask private column values ​​to maintain their confidentiality.
+
+## High Flow
+
+Potential privacy issues when data should not be visible to everyone : 
+
 
 ## Installation
 

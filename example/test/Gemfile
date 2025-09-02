@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+# gem "rails"
+
+gem "sqlite3"
+gem "sinatra"
+gem "activerecord"
+gem "byebug"
+
+# gem 'obscura', path: '../obscura' # for test in localhost
+gem 'obscura', git: 'git@github.com:solehudinmq/obscura.git', branch: 'main'
+gem "rackup", "~> 2.2"
+gem "puma", "~> 6.6"
