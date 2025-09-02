@@ -6,28 +6,54 @@ With the Obscura library, your Ruby application can temporarily manipulate the v
 
 ## High Flow
 
-Potential privacy issues when data should not be visible to everyone : 
+Potential privacy issues when data should not be visible to everyone :
+![Logo Ruby](https://github.com/solehudinmq/obscura/blob/development/high_flow/Obscura-problem.jpg)
+
+With Obscura, we can now manipulate values ​​to mask them, so that sensitive data cannot be seen by everyone :
+![Logo Ruby](https://github.com/solehudinmq/obscura/blob/development/high_flow/Obscura-solution.jpg)
 
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+The minimum version of Ruby that must be installed is 3.0.
+Only runs on activerecord.
 
-Install the gem and add to the application's Gemfile by executing:
+Add this line to your application's Gemfile :
 
-```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+```ruby
+gem 'obscura', git: 'git@github.com:solehudinmq/obscura.git', branch: 'main'
 ```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
-
+Open terminal, and run this : 
 ```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+cd your_ruby_application
+bundle install
 ```
 
 ## Usage
 
-TODO: Write usage instructions here
+In the model that will implement masking add this :
+```ruby
+require 'obscura'
+
+class User < ActiveRecord::Base
+  include Obscura
+
+  mask_attributes :email, :phone_number
+end
+```
+
+How to use masking :
+```ruby
+user = User.first
+user.email # test1@test.com (normal value)
+user.masked_email # ************** (full masking)
+user.half_masked_phone_number # +6211***** (half masking)
+```
+
+Understanding each masking method :
+- masked_{column_name} = value will be masked in full, example : **************.
+- half_masked_{column_name} = value will be masked half full, example : +6211*****.
 
 ## Development
 
@@ -37,7 +63,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/obscura.
+Bug reports and pull requests are welcome on GitHub at https://github.com/solehudinmq/obscura.
 
 ## License
 
