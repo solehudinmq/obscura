@@ -55,6 +55,47 @@ Understanding each masking method :
 - masked_{column_name} = value will be masked in full, example : **************.
 - half_masked_{column_name} = value will be masked half full, example : +6211*****.
 
+Example of api response :
+```json
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "User 15",
+            "email": "****************",
+            "phone_number": "+6211*****"
+        },
+        {
+            "id": 2,
+            "name": "User 14",
+            "email": "****************",
+            "phone_number": "+6211*****"
+        },
+        {
+            "id": 3,
+            "name": "User 13",
+            "email": "****************",
+            "phone_number": "+6211*****"
+        },
+        {
+            "id": 4,
+            "name": "User 12",
+            "email": "****************",
+            "phone_number": "+6211*****"
+        },
+        {
+            "id": 5,
+            "name": "User 11",
+            "email": "****************",
+            "phone_number": "+6211*****"
+        }
+    ],
+    "meta": {
+        "limit": 5
+    }
+}
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
