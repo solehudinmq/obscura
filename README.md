@@ -55,6 +55,35 @@ Understanding each masking method :
 - masked_{column_name} = value will be masked in full, example : **************.
 - half_masked_{column_name} = value will be masked half full, example : +6211*****.
 
+The following is an example of its use in your application :
+```ruby
+require 'sinatra'
+require 'json'
+require_relative 'user'
+
+get '/users' do
+    begin
+        limit = params[:limit].to_i || 10
+        users = []
+        User.all.limit(limit).each do |user|
+          users << {
+            id: user.id,
+            name: user.name,
+            email: user.masked_email,
+            phone_number: user.half_masked_phone_number
+          }
+        end
+
+        content_type :json
+        { data: users, meta: { limit: limit } }.to_json
+    rescue => e
+        content_type :json
+        status 500
+        return { error: e.message }.to_json
+    end
+end
+```
+
 Example of api response :
 ```json
 {
