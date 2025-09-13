@@ -36,19 +36,19 @@ In the model that will implement masking add this :
 ```ruby
 require 'obscura'
 
-class User < ActiveRecord::Base
+class YourModel < ActiveRecord::Base
   include Obscura
 
-  mask_attributes :email, :phone_number
+  mask_attributes :column1, :column2 # can be more than 1 column
 end
 ```
 
 How to use masking :
 ```ruby
-user = User.first
-user.email # test1@test.com (normal value)
-user.masked_email # ************** (full masking)
-user.half_masked_phone_number # +6211***** (half masking)
+data = YourModel.first
+data.column1 # +621122233 (normal value)
+data.masked_column1 # ********** (full masking)
+data.half_masked_column1 # +6211***** (half masking)
 ```
 
 Understanding each masking method :
@@ -57,6 +57,18 @@ Understanding each masking method :
 
 The following is an example of its use in your application :
 ```ruby
+# user.rb
+require 'obscura'
+
+class User < ActiveRecord::Base
+  include Obscura
+
+  mask_attributes :email, :phone_number
+end
+```
+
+```ruby
+# app.rb
 require 'sinatra'
 require 'json'
 require_relative 'user'
