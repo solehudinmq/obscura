@@ -3,7 +3,7 @@
 require "obscura"
 
 require 'byebug'
-require_relative '../example/test/user'
+require_relative '../example/user'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

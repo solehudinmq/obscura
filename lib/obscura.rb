@@ -5,9 +5,6 @@ require 'active_support/concern'
 require_relative "obscura/version"
 
 module Obscura extend ActiveSupport::Concern
-  class Error < StandardError; end
-  # Your code goes here...
-  
   module ClassMethods
     def mask_attributes(*attributes)
       attributes.each do |attribute|
