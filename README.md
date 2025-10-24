@@ -57,13 +57,51 @@ Understanding each masking method :
 
 The following is an example of its use in your application :
 ```ruby
+# Gemfile
+
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+gem "sqlite3"
+gem "sinatra"
+gem "activerecord"
+gem "byebug"
+gem 'obscura', git: 'git@github.com:solehudinmq/obscura.git', branch: 'main'
+gem "rackup", "~> 2.2"
+gem "puma", "~> 6.6"
+```
+
+```ruby
 # user.rb
+require 'active_record'
 require 'obscura'
+
+# Configure database connections
+ActiveRecord::Base.establish_connection(
+  adapter: 'sqlite3',
+  database: 'db/development.sqlite3'
+)
+
+# Create a db directory if it doesn't exist yet
+Dir.mkdir('db') unless File.directory?('db')
 
 class User < ActiveRecord::Base
   include Obscura
 
   mask_attributes :email, :phone_number
+end
+
+# Migration to create users table
+ActiveRecord::Schema.define do
+  unless ActiveRecord::Base.connection.table_exists?(:users)
+    create_table :users do |t|
+      t.string :name
+      t.string :email
+      t.string :phone_number
+      t.timestamps
+    end
+  end
 end
 ```
 
@@ -71,29 +109,49 @@ end
 # app.rb
 require 'sinatra'
 require 'json'
+require 'byebug'
 require_relative 'user'
 
+# Route to retrieve user data
 get '/users' do
-    begin
-        limit = params[:limit].to_i || 10
-        users = []
-        User.all.limit(limit).each do |user|
-          users << {
-            id: user.id,
-            name: user.name,
-            email: user.masked_email,
-            phone_number: user.half_masked_phone_number
-          }
-        end
-
-        content_type :json
-        { data: users, meta: { limit: limit } }.to_json
-    rescue => e
-        content_type :json
-        status 500
-        return { error: e.message }.to_json
+  begin
+    limit = params[:limit].to_i || 10
+    users = []
+    User.all.limit(limit).each do |user|
+      users << {
+        id: user.id,
+        name: user.name,
+        email: user.masked_email,
+        phone_number: user.half_masked_phone_number
+      }
     end
+
+    content_type :json
+    { data: users, meta: { limit: limit } }.to_json
+  rescue => e
+    content_type :json
+    status 500
+    return { error: e.message }.to_json
+  end
 end
+
+# Route to enter dummy data
+post '/seed' do
+  # Delete old data and enter new data
+  User.destroy_all
+  15.times do |i|
+    User.create(name: "User #{15-i}", email: "email#{15-i}@test.com", phone_number: "+62111111#{i-i}")
+    sleep(0.1) # Add a gap to make the created_at different
+  end
+  'Database seeded dengan 15 users.'
+end
+
+# open terminal
+# cd your_project
+# bundle install
+# bundle exec ruby app.rb
+# curl --location --request POST 'http://localhost:4567/seed' // untuk create dummy data
+# curl --location 'http://localhost:4567/users?limit=5'
 ```
 
 Example of api response :
