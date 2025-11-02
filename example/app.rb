@@ -7,7 +7,7 @@ require_relative 'user'
 # Route to retrieve user data
 get '/users' do
   begin
-    limit = params[:limit].to_i || 10
+    limit = (params[:limit] || 10).to_i
     users = []
     User.all.limit(limit).each do |user|
       users << {
