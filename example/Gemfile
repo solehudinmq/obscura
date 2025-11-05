@@ -6,10 +6,8 @@ source "https://rubygems.org"
 
 gem "sqlite3"
 gem "sinatra"
-gem "activerecord"
 gem "byebug"
-
-# gem 'obscura', path: '../obscura' # for test in localhost
+# gem 'obscura', path: '../' # for test in localhost
 gem 'obscura', git: 'git@github.com:solehudinmq/obscura.git', branch: 'main'
 gem "rackup", "~> 2.2"
 gem "puma", "~> 6.6"
