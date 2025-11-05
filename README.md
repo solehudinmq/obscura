@@ -7,24 +7,33 @@ With the Obscura library, your Ruby application can temporarily manipulate the v
 ## High Flow
 
 Potential privacy issues when data should not be visible to everyone :
+
 ![Logo Ruby](https://github.com/solehudinmq/obscura/blob/development/high_flow/Obscura-problem.jpg)
 
 With Obscura, we can now manipulate values ​​to mask them, so that sensitive data cannot be seen by everyone :
+
 ![Logo Ruby](https://github.com/solehudinmq/obscura/blob/development/high_flow/Obscura-solution.jpg)
 
-
-## Installation
+## Requirement
 
 The minimum version of Ruby that must be installed is 3.0.
-Only runs on activerecord.
+
+Requires dependencies to the following gems :
+- activerecord
+
+- activesupport
+
+## Installation
 
 Add this line to your application's Gemfile :
 
 ```ruby
+# Gemfile
 gem 'obscura', git: 'git@github.com:solehudinmq/obscura.git', branch: 'main'
 ```
 
 Open terminal, and run this : 
+
 ```bash
 cd your_ruby_application
 bundle install
@@ -33,6 +42,7 @@ bundle install
 ## Usage
 
 In the model that will implement masking add this :
+
 ```ruby
 require 'obscura'
 
@@ -43,7 +53,10 @@ class YourModel < ActiveRecord::Base
 end
 ```
 
+For more details, you can see the following example : [example/user.rb](Here).
+
 How to use masking :
+
 ```ruby
 data = YourModel.first
 data.column1 # +621122233 (normal value)
@@ -55,145 +68,15 @@ Understanding each masking method :
 - masked_{column_name} = value will be masked in full, example : **************.
 - half_masked_{column_name} = value will be masked half full, example : +6211*****.
 
-The following is an example of its use in your application :
-```ruby
-# Gemfile
+For more details, you can see the following example : [example/app.rb](Here).
 
-# frozen_string_literal: true
+## Example Implementation in Your Application
 
-source "https://rubygems.org"
+For examples of applications that use this gem, you can see them here : [example](Here).
 
-gem "sqlite3"
-gem "sinatra"
-gem "activerecord"
-gem "byebug"
-gem 'obscura', git: 'git@github.com:solehudinmq/obscura.git', branch: 'main'
-gem "rackup", "~> 2.2"
-gem "puma", "~> 6.6"
-```
+## Example of Response That has been Censored
 
-```ruby
-# user.rb
-require 'active_record'
-require 'obscura'
-
-# Configure database connections
-ActiveRecord::Base.establish_connection(
-  adapter: 'sqlite3',
-  database: 'db/development.sqlite3'
-)
-
-# Create a db directory if it doesn't exist yet
-Dir.mkdir('db') unless File.directory?('db')
-
-class User < ActiveRecord::Base
-  include Obscura
-
-  mask_attributes :email, :phone_number
-end
-
-# Migration to create users table
-ActiveRecord::Schema.define do
-  unless ActiveRecord::Base.connection.table_exists?(:users)
-    create_table :users do |t|
-      t.string :name
-      t.string :email
-      t.string :phone_number
-      t.timestamps
-    end
-  end
-end
-```
-
-```ruby
-# app.rb
-require 'sinatra'
-require 'json'
-require 'byebug'
-require_relative 'user'
-
-# Route to retrieve user data
-get '/users' do
-  begin
-    limit = (params[:limit] || 10).to_i
-    users = []
-    User.all.limit(limit).each do |user|
-      users << {
-        id: user.id,
-        name: user.name,
-        email: user.masked_email,
-        phone_number: user.half_masked_phone_number
-      }
-    end
-
-    content_type :json
-    { data: users, meta: { limit: limit } }.to_json
-  rescue => e
-    content_type :json
-    status 500
-    return { error: e.message }.to_json
-  end
-end
-
-# Route to enter dummy data
-post '/seed' do
-  # Delete old data and enter new data
-  User.destroy_all
-  15.times do |i|
-    User.create(name: "User #{15-i}", email: "email#{15-i}@test.com", phone_number: "+62111111#{i-i}")
-    sleep(0.1) # Add a gap to make the created_at different
-  end
-  'Database seeded dengan 15 users.'
-end
-
-# open terminal
-# cd your_project
-# bundle install
-# bundle exec ruby app.rb
-# curl --location --request POST 'http://localhost:4567/seed' // untuk create dummy data
-# curl --location 'http://localhost:4567/users?limit=5'
-```
-
-Example of api response :
-```json
-{
-    "data": [
-        {
-            "id": 1,
-            "name": "User 15",
-            "email": "****************",
-            "phone_number": "+6211*****"
-        },
-        {
-            "id": 2,
-            "name": "User 14",
-            "email": "****************",
-            "phone_number": "+6211*****"
-        },
-        {
-            "id": 3,
-            "name": "User 13",
-            "email": "****************",
-            "phone_number": "+6211*****"
-        },
-        {
-            "id": 4,
-            "name": "User 12",
-            "email": "****************",
-            "phone_number": "+6211*****"
-        },
-        {
-            "id": 5,
-            "name": "User 11",
-            "email": "****************",
-            "phone_number": "+6211*****"
-        }
-    ],
-    "meta": {
-        "limit": 5
-    }
-}
-```
+For examples of applications that use this gem, you can see them here : [example/response.json](Here).
 
 ## Contributing
 
