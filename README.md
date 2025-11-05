@@ -53,7 +53,7 @@ class YourModel < ActiveRecord::Base
 end
 ```
 
-For more details, you can see the following example : [example/user.rb](Here).
+For more details, you can see the following example : [example/user.rb](https://github.com/solehudinmq/obscura/blob/development/example/user.rb).
 
 How to use masking :
 
@@ -68,15 +68,15 @@ Understanding each masking method :
 - masked_{column_name} = value will be masked in full, example : **************.
 - half_masked_{column_name} = value will be masked half full, example : +6211*****.
 
-For more details, you can see the following example : [example/app.rb](Here).
+For more details, you can see the following example : [example/app.rb](https://github.com/solehudinmq/obscura/blob/development/example/app.rb).
 
 ## Example Implementation in Your Application
 
-For examples of applications that use this gem, you can see them here : [example](Here).
+For examples of applications that use this gem, you can see them here : [example](https://github.com/solehudinmq/obscura/tree/development/example).
 
 ## Example of Response That has been Censored
 
-For examples of applications that use this gem, you can see them here : [example/response.json](Here).
+For examples of applications that use this gem, you can see them here : [example/response.json](https://github.com/solehudinmq/obscura/blob/development/example/response.json).
 
 ## Contributing
 
