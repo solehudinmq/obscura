@@ -8,11 +8,11 @@ With the Obscura library, your Ruby application can temporarily manipulate the v
 
 Potential privacy issues when data should not be visible to everyone :
 
-![Logo Ruby](https://github.com/solehudinmq/obscura/blob/development/high_flow/Obscura-problem.jpg)
+![Logo Ruby](./high_flow/Obscura-problem.jpg)
 
 With Obscura, we can now manipulate values ​​to mask them, so that sensitive data cannot be seen by everyone :
 
-![Logo Ruby](https://github.com/solehudinmq/obscura/blob/development/high_flow/Obscura-solution.jpg)
+![Logo Ruby](./high_flow/Obscura-solution.jpg)
 
 ## Requirement
 
@@ -53,7 +53,7 @@ class YourModel < ActiveRecord::Base
 end
 ```
 
-For more details, you can see the following example : [example/user.rb](https://github.com/solehudinmq/obscura/blob/development/example/user.rb).
+For more details, you can see the following example : [example/user.rb](./example/user.rb).
 
 How to use masking :
 
@@ -68,15 +68,15 @@ Understanding each masking method :
 - masked_{column_name} = value will be masked in full, example : **************.
 - half_masked_{column_name} = value will be masked half full, example : +6211*****.
 
-For more details, you can see the following example : [example/app.rb](https://github.com/solehudinmq/obscura/blob/development/example/app.rb).
+For more details, you can see the following example : [example/app.rb](./example/app.rb).
 
 ## Example Implementation in Your Application
 
-For examples of applications that use this gem, you can see them here : [example](https://github.com/solehudinmq/obscura/tree/development/example).
+For examples of applications that use this gem, you can see them here : [example](./example).
 
 ## Example of Response That has been Censored
 
-For examples of applications that use this gem, you can see them here : [example/response.json](https://github.com/solehudinmq/obscura/blob/development/example/response.json).
+For examples of applications that use this gem, you can see them here : [example/response.json](./example/response.json).
 
 ## Contributing
 
